@@ -1,0 +1,64 @@
+<div style="max-width: 600px; margin: auto; padding: 24px; display: flex; flex-direction: column; gap: 24px;">
+    <IgbLegend @ref="_legend"></IgbLegend>
+
+    <IgbDataChart Width="100%"
+                  Height="300px"
+                  Legend="_legend"
+                  ComputedPlotAreaMarginMode="ComputedPlotAreaMarginMode.Series">
+        <IgbCategoryXAxis Name="xAxis"
+                          DataSource="_data"
+                          Label="@nameof(DataItem.Index)"
+                          MajorStroke="1">
+        </IgbCategoryXAxis>
+
+        <IgbNumericYAxis Name="yAxis" MinimumValue="10" MaximumValue="16" Interval="1"></IgbNumericYAxis>
+
+        <IgbLineSeries Title="Sample Data"
+                       DataSource="_data"
+                       XAxisName="xAxis"
+                       YAxisName="yAxis"
+                       ShowDefaultTooltip="false"
+                       ValueMemberPath="@nameof(DataItem.Value)">
+            <TooltipTemplate Context="ctx">
+                @if (ctx?.Item is DataItem item)
+                {
+                    <div style="padding: 4px;">
+                        <div><strong>Sample Data</strong></div>
+                        <div><strong>Index:</strong> @item.Index</div>
+                        <div><strong>Value:</strong> @item.Value 件</div>
+                    </div>
+                }
+            </TooltipTemplate>
+        
+        </IgbLineSeries>
+    </IgbDataChart>
+</div>
+
+@code {
+    public class DataItem
+    {
+        public int Index { get; set; }
+        public double? Value { get; set; }
+    }
+
+    private List<DataItem> _data = new()
+    {
+        new(){ Index = 0, Value = 12 },
+        new(){ Index = 1, Value = 14 },
+        new(){ Index = 2, Value = 11 },
+        new(){ Index = 3, Value = 13 },
+        new(){ Index = 4, Value = 15 },
+        new(){ Index = 5, Value = 12 },
+        new(){ Index = 6, Value = 14 },
+    };
+
+    private IgbLegend? _legend;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            this.StateHasChanged();
+        }
+    }
+}
