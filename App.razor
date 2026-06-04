@@ -19,8 +19,8 @@
                        YAxisName="yAxis"
                        ShowDefaultTooltip="false"
                        ValueMemberPath="@nameof(DataItem.Value)">
-            <TooltipTemplate Context="ctx">
-                @if (ctx?.Item is DataItem item)
+            <TooltipTemplate>
+                @if (context?.Item is DataItem item)
                 {
                     <div style="padding: 4px;">
                         <div><strong>Sample Data</strong></div>
